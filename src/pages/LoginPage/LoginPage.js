@@ -6,7 +6,7 @@ function LoginPage({ onLoginSuccess }) {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const correctUsername = "admin";
-  const correctPassword = "20060704";
+  const correctPassword = "20050704";
   const handleLogin = () => {
     setErrorMessage("");
     if (!username || !password) {

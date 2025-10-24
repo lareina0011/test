@@ -2,30 +2,55 @@ import React from "react";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
 import "./DashboardPage.css";
 const { Header, Content, Footer } = Layout;
-const items = Array.from({ length: 15 }).map((_, index) => ({
-  key: index + 1,
-  label: `nav ${index + 1}`,
-}));
+const items = [
+  { key: "1", label: "我们的故事" },
+  { key: "2", label: "我们的时光" },
+  { key: "3", label: "照片墙" },
+  { key: "4", label: "纪念日" },
+];
 const App = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   return (
-    <Layout>
-      <Header style={{ display: "flex", alignItems: "center" }}>
+    <Layout style={{ backgroundColor: "#f8e0e6" }}>
+      <Header
+        style={{
+          display: "flex",
+          alignItems: "center",
+          backgroundColor: "#f8c6d2",
+        }}
+      >
         <div className="demo-logo" />
         <Menu
-          theme="dark"
+          theme="light"
           mode="horizontal"
           defaultSelectedKeys={["2"]}
           items={items}
-          style={{ flex: 1, minWidth: 0 }}
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            flex: 1,
+            minWidth: 0,
+            backgroundColor: "#f8c6d2",
+            borderRadius: "8px",
+          }}
         />
       </Header>
-      <Content style={{ padding: "0 48px" }}>
+      <Content
+        style={{
+          padding: "0 48px",
+          backgroundColor: "#ffffff",
+          minHeight: "80vh",
+        }}
+      >
         <Breadcrumb
           style={{ margin: "16px 0" }}
-          items={[{ title: "Home" }, { title: "List" }, { title: "App" }]}
+          items={[
+            { title: "首页" },
+            { title: "我们的时光" },
+            { title: "关于我们" },
+          ]}
         />
         <div
           style={{
@@ -33,6 +58,8 @@ const App = () => {
             minHeight: 280,
             padding: 24,
             borderRadius: borderRadiusLG,
+            backgroundColor: "#fdf2f5",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
           }}
         >
           Content
