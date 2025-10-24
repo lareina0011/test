@@ -1,20 +1,47 @@
 // src/App.js
 
-import React from "react";
-import "./App.css"; // 全局样式
-import LoginPage from "./pages/LoginPage/LoginPage"; // <-- 导入新的登录组件
+import React, { useState, useRef } from "react";
+import "./App.css";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import DashboardPage from "./pages/DashboardPage/DashboardPage";
 
+const STAGE = {
+  LOGIN: "login",
+  DASHBOARD: "dashboard", // const [isLoggedIn, setIsLoggedIn] = useState(false);
+};
 function App() {
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [appStage, setAppStage] = useState(STAGE.LOGIN);
+  const backgroundMusicRef = useRef(null);
+  const handleLoginSuccess = () => {
+    setAppStage(STAGE.DASHBOARD);
+    if (backgroundMusicRef.current) {
+      backgroundMusicRef.current.currentTime = 0;
+      backgroundMusicRef.current.play().catch((error) => {
+        console.error("背景音乐无法播放音乐:", error);
+      });
+    }
+  };
+  const renderContent = () => {
+    switch (appStage) {
+      case STAGE.LOGIN:
+        return <LoginPage onLoginSuccess={handleLoginSuccess} />;
+      case STAGE.DASHBOARD:
+        return <DashboardPage />;
+      default:
+        return <LoginPage onLoginSuccess={handleLoginSuccess} />;
+    }
+  };
 
   return (
     <div className="App-Container">
-      {/* 暂时直接显示 LoginPage */}
-      <LoginPage />
-
-      {/* 未来你可能会这么写：
-      {isLoggedIn ? <DashboardPage /> : <LoginPage onLoginSuccess={...} />}
-      */}
+      <audio
+        ref={backgroundMusicRef}
+        src={"BackgroundMusic.m4a"}
+        loop
+        style={{ display: "none" }}
+        preload="auto"
+      />
+      {renderContent()}
     </div>
   );
 }

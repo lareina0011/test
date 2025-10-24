@@ -1,6 +1,6 @@
 import "./LoginPage.css";
 import React, { useState } from "react";
-function LoginPage() {
+function LoginPage({ onLoginSuccess }) {
   // 如果您想管理输入框的值，可以在这里使用 useState
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -14,7 +14,7 @@ function LoginPage() {
       return;
     }
     if (username === correctUsername && password === correctPassword) {
-      alert("登录成功！");
+      onLoginSuccess();
     } else {
       setErrorMessage("用户名或密码错误");
     }
