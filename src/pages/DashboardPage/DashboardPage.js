@@ -1,6 +1,8 @@
 import React from "react";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
 import "./DashboardPage.css";
+import DashboardPage_bg from "../../assets/DashboardPage_bg.jpg";
+
 const { Header, Content, Footer } = Layout;
 const items = [
   { key: "1", label: "我们的故事" },
@@ -8,12 +10,18 @@ const items = [
   { key: "3", label: "照片墙" },
   { key: "4", label: "纪念日" },
 ];
-const App = () => {
+const DashboardPage = ({ OnLogout }) => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  const layoutStyle = {
+    backgroundColor: "#f8e0e6",
+    minHeight: "100vh",
+    backgroundImage: `url(${DashboardPage_bg})`,
+  };
+
   return (
-    <Layout style={{ backgroundColor: "#f8e0e6" }}>
+    <Layout style={DashboardPage} className="Dashboard-Layout">
       <Header
         style={{
           display: "flex",
@@ -40,10 +48,17 @@ const App = () => {
       <Content
         style={{
           padding: "0 48px",
-          backgroundColor: "#ffffff",
+          // backgroundColor: "#ffffff",
+          backgroundColor: "transparent",
           minHeight: "80vh",
         }}
       >
+        <footer
+          style={{
+            fontsize: "12px",
+            textAlign: "center",
+          }}
+        ></footer>
         <Breadcrumb
           style={{ margin: "16px 0" }}
           items={[
@@ -76,7 +91,26 @@ const App = () => {
       >
         Ant Design ©{new Date().getFullYear()} Created by Ant UED
       </Footer>
+      {/* <style jsx>
+          {`
+            .ant-menu-item-selected {
+              background-color: transparent !important;
+              color: #e76f9e !important;
+            }
+            .ant-menu-item:focus {
+              background-color: transparent !important;
+              outline: none !important;
+            }
+            .ant-men .ant-menu-item-active::after {
+              border-bottom: 2px solid #e76f9e !important;
+            }
+            .ant-menu-item:hover {
+              background-color: #f8e0e6;
+              color: #e76f9e;
+            }
+          `}
+        </style> */}
     </Layout>
   );
 };
-export default App;
+export default DashboardPage;

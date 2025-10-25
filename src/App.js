@@ -1,47 +1,68 @@
 // src/App.js
-
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./App.css";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import DashboardPage from "./pages/DashboardPage/DashboardPage";
+// import backgroundWave from "./assets/BackgroundMusic.wav";
 
 const STAGE = {
   LOGIN: "login",
-  DASHBOARD: "dashboard", // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  DASHBOARD: "dashboard",
 };
+
 function App() {
   const [appStage, setAppStage] = useState(STAGE.LOGIN);
   const backgroundMusicRef = useRef(null);
+
   const handleLoginSuccess = () => {
+    console.log("该处已被调用");
+    const music = backgroundMusicRef.current;
+
+    // 尝试播放音乐
+    if (music) {
+      music.currentTime = 0;
+      music
+        .play()
+        .then(() => {
+          console.log("音乐播放成功！");
+        })
+        .catch((err) => {
+          console.warn("登录成功后自动播放仍失败:", err);
+        });
+    }
+
     setAppStage(STAGE.DASHBOARD);
-    if (backgroundMusicRef.current) {
-      backgroundMusicRef.current.currentTime = 0;
-      backgroundMusicRef.current.play().catch((error) => {
-        console.error("背景音乐无法播放音乐:", error);
-      });
-    }
   };
-  const renderContent = () => {
-    switch (appStage) {
-      case STAGE.LOGIN:
-        return <LoginPage onLoginSuccess={handleLoginSuccess} />;
-      case STAGE.DASHBOARD:
-        return <DashboardPage />;
-      default:
-        return <LoginPage onLoginSuccess={handleLoginSuccess} />;
+
+  useEffect(() => {
+    const music = backgroundMusicRef.current;
+    if (!music) return;
+
+    if (appStage === STAGE.LOGIN) {
+      music.pause();
+      music.currentTime = 0;
     }
+  }, [appStage]);
+
+  const handleLogout = () => {
+    setAppStage(STAGE.LOGIN);
   };
 
   return (
     <div className="App-Container">
+      {appStage === STAGE.LOGIN ? (
+        <LoginPage onLoginSuccess={handleLoginSuccess} />
+      ) : (
+        <DashboardPage onLogout={handleLogout} />
+      )}
       <audio
         ref={backgroundMusicRef}
-        src={"BackgroundMusic.m4a"}
         loop
-        style={{ display: "none" }}
         preload="auto"
-      />
-      {renderContent()}
+        style={{ display: "none" }}
+      >
+        <source src="/BackgroundMusic.wav" type="audio/wav" />
+      </audio>
     </div>
   );
 }
